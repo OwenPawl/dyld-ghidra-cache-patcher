@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dyld-ghidra-cache-patcher"
+version = "0.1.0"
+description = "Conservative Ghidra repair tooling for dyld-extracted Mach-O images"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [
+  { name = "Owen Pawling" }
+]
+keywords = ["ghidra", "dyld", "macho", "reverse-engineering"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: MacOS",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Security",
+  "Topic :: Software Development :: Disassemblers",
+]
+dependencies = []
+
+[project.scripts]
+dyld-ghidra-cache-patcher = "dyld_ghidra_cache_page_patcher:main"
+
+[tool.setuptools]
+py-modules = ["dyld_ghidra_cache_page_patcher"]
