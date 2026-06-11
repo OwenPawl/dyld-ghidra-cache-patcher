@@ -52,6 +52,23 @@ It does not depend on `ipsw`.
 `find` uses only the Python standard library and local files. `patch` requires
 Ghidra's `analyzeHeadless`.
 
+## Install
+
+Run directly from the checkout:
+
+```sh
+./dyld_ghidra_cache_page_patcher.py --help
+```
+
+Or install into a virtual environment:
+
+```sh
+python3 -m venv .venv
+. .venv/bin/activate
+python3 -m pip install .
+dyld-ghidra-cache-patcher --help
+```
+
 ## Modes
 
 ### `fix`
@@ -76,7 +93,7 @@ you intentionally want more surrounding cache context.
 ```sh
 ROOT="/Volumes/reSSD/dyld_ios_27_0_24A5355q"
 
-./dyld_ghidra_cache_page_patcher.py find \
+dyld-ghidra-cache-patcher find \
   --mode fix \
   --jobs 8 \
   --samples 4 \
@@ -88,7 +105,7 @@ ROOT="/Volumes/reSSD/dyld_ios_27_0_24A5355q"
 Patch the discovered pages into a Ghidra program:
 
 ```sh
-./dyld_ghidra_cache_page_patcher.py patch \
+dyld-ghidra-cache-patcher patch \
   --outdir "$ROOT/ghidra_missing_cache_patches/ShortcutsLanguage_fix" \
   --project-dir "$ROOT/Ghidra" \
   --project-name "iOS27_Shortcuts_Dyld_Test" \
@@ -98,7 +115,7 @@ Patch the discovered pages into a Ghidra program:
 Grow one broad round, then close through stubs:
 
 ```sh
-./dyld_ghidra_cache_page_patcher.py find \
+dyld-ghidra-cache-patcher find \
   --mode grow \
   --rounds 1 \
   --jobs 8 \
@@ -111,7 +128,7 @@ Grow one broad round, then close through stubs:
 Patch only pages discovered through a specific round:
 
 ```sh
-./dyld_ghidra_cache_page_patcher.py patch \
+dyld-ghidra-cache-patcher patch \
   --outdir "$ROOT/ghidra_missing_cache_patches/ShortcutsLanguage_grow_r1" \
   --project-dir "$ROOT/Ghidra" \
   --project-name "iOS27_Shortcuts_Dyld_Test" \
@@ -142,6 +159,17 @@ many extraction artifacts while keeping the comparison focused on the target
 image.
 
 Avoid `grow` for strict baselines unless the added context is intentional.
+
+## Repository Layout
+
+- `dyld_ghidra_cache_page_patcher.py`: tiny compatibility wrapper
+- `dyld_ghidra_cache_patcher/cli.py`: command-line interface
+- `dyld_ghidra_cache_patcher/arm64.py`: AArch64 decoding and local page classifier
+- `dyld_ghidra_cache_patcher/macho.py`: extracted Mach-O parsing and branch scanning
+- `dyld_ghidra_cache_patcher/dyld_cache.py`: dyld shared cache mapping and page reads
+- `dyld_ghidra_cache_patcher/finder.py`: discovery, closure, report generation
+- `dyld_ghidra_cache_patcher/ghidra.py`: Ghidra patch script generation and launch
+- `dyld_ghidra_cache_patcher/templates/`: bundled Java script template
 
 ## License
 

@@ -31,3 +31,7 @@ dyld-ghidra-cache-patcher = "dyld_ghidra_cache_page_patcher:main"
 
 [tool.setuptools]
 py-modules = ["dyld_ghidra_cache_page_patcher"]
+packages = ["dyld_ghidra_cache_patcher", "dyld_ghidra_cache_patcher.templates"]
+
+[tool.setuptools.package-data]
+"dyld_ghidra_cache_patcher.templates" = ["*.java"]
